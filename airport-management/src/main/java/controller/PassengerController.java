@@ -1,4 +1,4 @@
-package main.java.controller;
+package com.keyin.airport_management.controller;
 import com.keyin.airport_management.model.Passenger;
 import com.keyin.airport_management.repository.PassengerRepository;
 import org.springframework.beans.factory.annotation.Autowired;

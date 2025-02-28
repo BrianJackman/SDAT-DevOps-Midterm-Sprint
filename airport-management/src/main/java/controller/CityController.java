@@ -1,4 +1,4 @@
-package main.java.controller;
+package com.keyin.airport_management.controller;
 
 import com.keyin.airport_management.model.City;
 import com.keyin.airport_management.repository.CityRepository;

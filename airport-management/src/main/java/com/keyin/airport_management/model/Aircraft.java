@@ -1,4 +1,4 @@
-package main.java.com.keyin.airport_management.model;
+package com.keyin.airport_management.model;
 import javax.persistence.*;
 import java.util.Set;
 
