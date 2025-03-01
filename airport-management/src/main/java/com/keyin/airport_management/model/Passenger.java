@@ -12,14 +12,14 @@ public class Passenger {
     private String lastName;
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    private City city;
+    @ManyToMany
+    @JoinTable(
+        name = "passenger_aircraft",
+        joinColumns = @JoinColumn(name = "passenger_id"),
+        inverseJoinColumns = @JoinColumn(name = "aircraft_id")
+    )
+    private Set<Aircraft> aircrafts;
 
-    @ManyToMany(mappedBy = "passengers")
-    private Set<Aircraft> aircraft;
-
-    
     public Long getId() {
         return id;
     }
@@ -52,19 +52,48 @@ public class Passenger {
         this.phoneNumber = phoneNumber;
     }
 
-    public City getCity() {
-        return city;
+    public Set<Aircraft> getAircrafts() {
+        return aircrafts;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setAircrafts(Set<Aircraft> aircrafts) {
+        this.aircrafts = aircrafts;
     }
 
-    public Set<Aircraft> getAircraft() {
-        return aircraft;
+    @Override
+    public String toString() {
+        return "Passenger{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 
-    public void setAircraft(Set<Aircraft> aircraft) {
-        this.aircraft = aircraft;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Passenger passenger = (Passenger) o;
+
+        return id != null ? id.equals(passenger.id) : passenger.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+
+
+    public void addAircraft(Aircraft aircraft) {
+        this.aircrafts.add(aircraft);
+        aircraft.getPassengers().add(this);
+    }
+
+    public void removeAircraft(Aircraft aircraft) {
+        this.aircrafts.remove(aircraft);
+        aircraft.getPassengers().remove(this);
     }
 }

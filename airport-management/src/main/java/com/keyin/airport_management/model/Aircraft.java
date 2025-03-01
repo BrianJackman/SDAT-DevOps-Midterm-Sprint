@@ -1,23 +1,18 @@
 package com.keyin.airport_management.model;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Aircraft {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
-    private String airlineName;
-    private int numberOfPassengers;
 
-    @ManyToMany
-    @JoinTable(
-        name = "aircraft_passenger",
-        joinColumns = @JoinColumn(name = "aircraft_id"),
-        inverseJoinColumns = @JoinColumn(name = "passenger_id")
-    )
-    private Set<Passenger> passengers;
+    private String name;
+
+    @ManyToMany(mappedBy = "aircrafts")
+    private List<Passenger> passengers;
 
     @ManyToMany
     @JoinTable(
@@ -25,9 +20,10 @@ public class Aircraft {
         joinColumns = @JoinColumn(name = "aircraft_id"),
         inverseJoinColumns = @JoinColumn(name = "airport_id")
     )
-    private Set<Airport> airports;
+    private List<Airport> airports;
 
-  
+
+
     public Long getId() {
         return id;
     }
@@ -36,43 +32,50 @@ public class Aircraft {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAirlineName() {
-        return airlineName;
-    }
-
-    public void setAirlineName(String airlineName) {
-        this.airlineName = airlineName;
-    }
-
-    public int getNumberOfPassengers() {
-        return numberOfPassengers;
-    }
-
-    public void setNumberOfPassengers(int numberOfPassengers) {
-        this.numberOfPassengers = numberOfPassengers;
-    }
-
-    public Set<Passenger> getPassengers() {
+    public List<Passenger> getPassengers() {
         return passengers;
     }
 
-    public void setPassengers(Set<Passenger> passengers) {
+    public void setPassengers(List<Passenger> passengers) {
         this.passengers = passengers;
     }
 
-    public Set<Airport> getAirports() {
+    public List<Airport> getAirports() {
         return airports;
     }
 
-    public void setAirports(Set<Airport> airports) {
+    public void setAirports(List<Airport> airports) {
         this.airports = airports;
+    }
+
+    @Override
+    public String toString() {
+        return "Aircraft{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Aircraft aircraft = (Aircraft) o;
+
+        return id != null ? id.equals(aircraft.id) : aircraft.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }
